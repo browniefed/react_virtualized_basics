@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "faker": "^4.1.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-virtualized": "^9.7.6"
