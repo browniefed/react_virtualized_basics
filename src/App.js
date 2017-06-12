@@ -1,13 +1,32 @@
 import React, { Component } from "react";
-import { List, AutoSizer } from "react-virtualized";
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtualized";
+
+
 
 class App extends Component {
-  renderRow = ({ index, isScrolling, key, style}) => {
+  constructor(props) {
+    super(props);
+    const cache = new CellMeasurerCache({
+      fixedWidth: true,
+      defaultHeight: 50
+    });
+    this.cache = cache;
+  }
+  renderRow = ({ index, parent, key, style}) => {
     return (
-      <div key={key} style={style}>
-        <div>{this.props.data[index].name}</div>
-        <div>{this.props.data[index].email}</div>
-      </div>
+      <CellMeasurer 
+        key={key}
+        cache={this.cache}
+        parent={parent}
+        columnIndex={0}
+        rowIndex={index}
+      >
+        <div style={style}>
+          <div>{this.props.data[index].name}</div>
+          <div>{this.props.data[index].email}</div>
+          <div style={{height: `${this.props.data[index].randomHeight}px`}} />
+        </div>
+      </CellMeasurer>
     )
   }
   render() {
@@ -19,7 +38,8 @@ class App extends Component {
             rowCount={this.props.data.length}
             width={width}
             height={height}
-            rowHeight={50}
+            deferredMeasurementCache={this.cache}
+            rowHeight={this.cache.rowHeight}
             rowRenderer={this.renderRow}
           />
         }

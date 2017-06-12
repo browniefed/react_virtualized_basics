@@ -1,3 +1,7 @@
 #root {
   height: 100vh;
 }
+
+.row {
+  padding: 20px 0;
+}
